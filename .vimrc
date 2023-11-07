@@ -1,134 +1,116 @@
-" Vundle
-set nocompatible              " be iMproved, required
-filetype off                  " required
+" Don't try to be vi compatible
+set nocompatible
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+" Helps force plugins to load correctly when it is turned back on below
+filetype off
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+" Turn on syntax highlighting
+syntax on
 
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" use plugin on GitHub repo
-Plugin 'airblade/vim-gitgutter'
-Plugin 'jez/vim-colors-solarized'
-Plugin 'tpope/vim-fugitive'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-" use plugin from http://vim-scripts.org/vim/scripts.html
-" Plugin 'L9'
-" use Git plugin not hosted on GitHub
-"Plugin 'git://git.wincent.com/command-t.git'
-" use git repos on your local machine (i.e. when working on your own plugin)
-"Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-"Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Install L9 and avoid a Naming conflict if you've already installed a
-" different version somewhere else.
-" Plugin 'ascenator/L9', {'name': 'newL9'}
+" For plugins to load correctly
+filetype plugin indent on
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+" TODO: Pick a leader key
+" let mapleader = ","
 
-" Display options
-set encoding=utf-8
-set showmode
-set showcmd
-set modeline
-set ruler
+" Security
+set modelines=0
+
+" Show line numbers
 set number
-"set notitle noicon
-set titlestring=%t
-" Persist color scheme in tmux
-set background=dark
+
+" No hash error bells
+set noerrorbells
+
+" Show file stats
+set ruler
+
+" Blink cursor on error instead of beeping (grr)
+set visualbell
+
+" Encoding
+set encoding=utf-8
+
+" Whitespace
+set wrap
+set textwidth=79
+set formatoptions=tcqrn1
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set expandtab
+set noshiftround
+set smartindent
+
+" Cursor motion
+set scrolloff=3
+set backspace=indent,eol,start
+set matchpairs+=<:> " use % to jump between pairs
+runtime! macros/matchit.vim
+
+" Move up/down editor lines
+nnoremap j gj
+nnoremap k gk
+
+" Allow hidden buffers
+set hidden
+
+" Rendering
+set ttyfast
+
 " Status bar
 set laststatus=2
 
-" Airline status line config
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-let g:airline_theme='bubblegum'
+" Last line
+set showmode
+set showcmd
 
-" Turn on syntax highlighting.
-syntax on
-" Highlight matching pairs of brackets. Use the '%' character to jump between them.
-set matchpairs+=<:>
+" Searching
+nnoremap / /\v
+vnoremap / /\v
+set hlsearch
+set incsearch
+set smartcase
+set showmatch
+map <leader><space> :let @/=''<cr> " clear search
 
-" Uncomment below to set the max textwidth. Use a value corresponding to the width of your screen.
-" set textwidth=79
-set formatoptions=tcqrn1
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-set expandtab
+" Remap help key.
+inoremap <F1> <ESC>:set invfullscreen<CR>a
+nnoremap <F1> :set invfullscreen<CR>
+vnoremap <F1> :set invfullscreen<CR>
 
-" Automatically wrap text that extends beyond the screen length.
-set wrap
-set linebreak
-set showbreak=▹
+" Textmate holdouts
 
-" Display 5 lines above/below the cursor when scrolling with a mouse.
-set scrolloff=5
+" Formatting
+map <leader>q gqip
 
-" Fixes common backspace problems
-set backspace=indent,eol,start
+" Visualize tabs and newlines
+set listchars=tab:▸\ ,eol:¬
+" Uncomment this to enable by default:
+" set list " To enable by default
+" Or use your leader key + l to toggle on/off
+map <leader>l :set list!<CR> " Toggle tabs and EOL
 
-" Vim's auto indentation feature does not work properly with text copied from outisde of Vim. Press the <F2> key to toggle paste mode on/off.
-nnoremap <F2> :set invpaste paste?<CR>
-imap <F2> <C-O>:set invpaste paste?<CR>
-set pastetoggle=<F2>
+call plug#begin('~/.vim/plugged')
 
-" Lines of history to save
-set history=50
+Plug 'morhetz/gruvbox'
+Plug 'jremmen/vim-ripgrep'
+Plug 'tpope/vim-fugitive'
+Plug 'leafgarland/typescript-vim'
+Plug 'vim-utils/vim-man'
+Plug 'lyuts/vim-rtags'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'valloric/youcompleteme'
+Plug 'mbbill/undotree'
 
-" Enable starting a new buffer without being forced to write current changes
-set hidden
+call plug#end()
 
-" Direction keys for wrapped lines
-nnoremap <silent> k gk
-nnoremap <silent> j gj
-nnoremap <silent> <Up> gk
-nnoremap <silent> <Down> gj
-inoremap <silent> <Up> <Esc>gka
-inoremap <silent> <Down> <Esc>gja
-
-" Bash / emacs keys for command line
-cnoremap <C-a> <Home>
-cnoremap <C-e> <End>
-
-" Change the cursor at insert mode
-let &t_ti.="\<Esc>[1 q"
-let &t_SI.="\<Esc>[5 q"
-let &t_EI.="\<Esc>[1 q"
-let &t_te.="\<Esc>[0 q"
-
-" Toggle line-wrap
-map <Leader>w <Esc>:set wrap!<CR>
-
-" Open file under cursor in new tab
-map <Leader>t <Esc><C-W>gF<CR>:tabm<CR>
-
-" Base64 decode word under cursor
-nmap <Leader>b :!echo <C-R><C-W> \| base64 -d<CR>
-
-" grep recursively for word under cursor
-nmap <Leader>g :tabnew\|read !grep -Hnr '<C-R><C-W>'<CR>
+" Color scheme (terminal)
+set t_Co=256
+set background=dark
+let g:solarized_termcolors=256
+let g:solarized_termtrans=1
+" put https://raw.github.com/altercation/vim-colors-solarized/master/colors/solarized.vim
+" in ~/.vim/colors/ and uncomment:
+set background=dark
 
