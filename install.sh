@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eo pipefail
 
 echo "Installing VSCode extensions..."
 scripts/vsc.sh
@@ -11,4 +12,4 @@ mkdir -p ~/.config/JetBrains/RemoteDev-IU/_home_owner_src_credit_card/
 unzip settings.zip -d ~/.config/JetBrains/RemoteDev-IU/_home_owner_src_credit_card/
 
 echo "Installing fish shell.."
-chmod +x scripts/install_fish.sh
+scripts/install_fish.sh
