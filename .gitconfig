@@ -1,6 +1,6 @@
 [user]
 	name = Michael Liang
-	mail = lliang@brex.com
+	email = lliang@brex.com
 [merge]
     tool = vscode
 [mergetool "vscode"]
